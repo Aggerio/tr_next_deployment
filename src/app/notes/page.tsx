@@ -36,7 +36,7 @@ export default async function Notes() {
     };
 
     fetchAllPosts();
-  }, []);
+  }, [searchTerm]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
