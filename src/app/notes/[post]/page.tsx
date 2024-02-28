@@ -10,6 +10,7 @@ import Link from "next/link";
 
 export default async function Notes({ params }: { params: { post: string } }) {
  const post = await getPostBySlug(params.post) ;
+ const markDownContent = await markdownToHtml(post?.content || "content");
 
  console.log("post: ",post);
   return (
@@ -20,7 +21,7 @@ export default async function Notes({ params }: { params: { post: string } }) {
         {post ? <PostHeader header={post.title} /> : <div></div>}
         <div
           className={markdownStyles["markdown"]}
-          dangerouslySetInnerHTML={{ __html: (post?.content || "content") }}
+          dangerouslySetInnerHTML={{ __html: markDownContent }}
         />
 
         <div style={{ marginTop: "40px" }}>
