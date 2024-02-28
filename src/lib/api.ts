@@ -84,6 +84,46 @@ export default async function getPostContentBySlug(slug: string) {
     return "";
   }
 }
+
+export async function getModifiedPostContent(content: string) {
+  const regex = /\[\[(.*?)\]\]/g;
+  const matches = content.match(regex);
+  let final_content = content;
+  let counter = 1;
+
+  if (matches) {
+    for (let i = 0; i < matches.length; ++i) {
+      const ttle = matches[i].split("[[")[1].split("]]")[0];
+      const index = final_content.indexOf(matches[i]);
+      const len = matches[i].length;
+      const previewContent = await getPostContentBySlug(
+        ttle.replaceAll(" ", "%20")
+      );
+
+      const tmp_str = `${final_content.substring(
+        0,
+        index
+      )} <span><a style="font-weight: bold;" href="${
+        previewContent != "" ? "/notes/" + ttle.replaceAll(" ", "%20") : ""
+      } " onmouseenter="handleIn('mydiv${counter}', '${ttle.replaceAll(
+        "'",
+        "\\'"
+      )}', '${previewContent.replaceAll("'", "\\'").replaceAll('"', '\\"')}')"
+               onmouseleave="handleOut('mydiv${counter}')">
+        ${ttle} 
+</a></span>
+        <div style= 'display:none;' id='mydiv${counter}'></div> ${final_content.substring(
+        index + len,
+        final_content.length
+      )}`;
+      // console.log(tmp_str);
+      final_content = tmp_str;
+      counter += 1;
+    }
+  }
+
+  return final_content;
+}
 export async function getAllPosts() {
   const slugs = await getPostSlugs();
   const posts: any = [];

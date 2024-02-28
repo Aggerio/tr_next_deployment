@@ -1,4 +1,4 @@
-import { getPostBySlug, getAllPosts} from "@/lib/api";
+import { getPostBySlug, getAllPosts, getModifiedPostContent} from "@/lib/api";
 import markdownToHtml from "@/lib/markdownToHtml";
 import markdownStyles from "./markdown-styles.module.css";
 import Container from "@/app/_components/Container/container";
@@ -10,7 +10,8 @@ import Link from "next/link";
 
 export default async function Notes({ params }: { params: { post: string } }) {
  const post = await getPostBySlug(params.post) ;
- const markDownContent = await markdownToHtml(post?.content || "content");
+ const markDownContent = await markdownToHtml(post?.content || "<div>content</div>");
+  const final_content = await getModifiedPostContent((markDownContent));
 
  console.log("post: ",post);
   return (
@@ -21,7 +22,7 @@ export default async function Notes({ params }: { params: { post: string } }) {
         {post ? <PostHeader header={post.title} /> : <div></div>}
         <div
           className={markdownStyles["markdown"]}
-          dangerouslySetInnerHTML={{ __html: markDownContent }}
+          dangerouslySetInnerHTML={{ __html: final_content}}
         />
 
         <div style={{ marginTop: "40px" }}>
