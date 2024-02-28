@@ -6,6 +6,7 @@ import styles from "./Notes.module.css";
 import { useState, useEffect } from "react";
 import getAllPosts from "@/lib/api";
 import markdownToHtml from "@/lib/markdownToHtml";
+import Link from "../../../node_modules/next/link";
 import { Post } from "@/interfaces/post";
 
 type notesList = {

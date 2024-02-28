@@ -9,6 +9,7 @@ import Header from "@/app/_components/Header/header";
 import { Post } from "@/interfaces/post";
 import { useState, useEffect } from "react";
 import Script from "next/script";
+import Link from "next/link";
 
 export default function Notes({ params }: { params: { post: string } }) {
   const [content, setContent] = useState("");
