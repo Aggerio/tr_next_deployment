@@ -64,7 +64,7 @@ export async function getPostBySlug(slug: string) {
   }
 }
 
-export async function getPostContentBySlug(slug: string) {
+export default async function getPostContentBySlug(slug: string) {
   const post = await getPostBySlug(slug);
   // return `<p>It's easy to make notes.And there are many easier ways to make notes — like Copy-pasting or Quoting.What we miss while doing that is the intention of note-taking.</p><p>Use note-taking to develop ideas, arguments, and discussions, not to<em>collect</em>ideas.</p><hr><h3>Source</h3><ul><li><strong>BOOK- How to Take Smart Notes</strong></li><li><a href="https://notes.andymatuschak.org/z4SDCZQeRo4xFEQ8H4qrSqd68ucpgE6LU155C">Evergreen Notes by Andy Matuschak</a></li></ul>`;
 
@@ -84,7 +84,7 @@ export async function getPostContentBySlug(slug: string) {
     return "";
   }
 }
-export default async function getAllPosts() {
+export async function getAllPosts() {
   const slugs = await getPostSlugs();
   const posts: any = [];
   for (let i = 0; i < slugs.length; ++i) {

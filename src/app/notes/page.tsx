@@ -1,6 +1,6 @@
 import Container from "../_components/Container/container";
 import styles from "./Notes.module.css";
-import getAllPosts from "@/lib/api";
+import { getAllPosts } from "@/lib/api";
 import { Post } from "@/interfaces/post";
 import NotesWidget from "../_components/NotesWidget/notesWidget";
 import Script from "next/script";
@@ -33,7 +33,7 @@ export default async function Notes() {
           {posts &&
             posts.map((note: Post, index: number) => {
               return (
-                <NotesWidget key={index} slug={note.slug} idx_div={index} />
+                <NotesWidget key={index} slug={note.slug} title={note.title} shortcontent={note.content} />
               );
             })}
         </Container>
