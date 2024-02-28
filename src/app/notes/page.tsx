@@ -11,7 +11,7 @@ import Script from "next/script";
 type notesList = {
   Post: Post[];
 };
-export default async function Notes() {
+export default function Notes() {
   // const data = await getAllPosts();
 
   const [searchTerm, setSearchTerm] = useState("");
