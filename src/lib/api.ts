@@ -23,7 +23,6 @@ function allMdFiles(): string[] {
     });
   }
 
-  console.log("Files in path: ", fs.readdirSync(postsDirectory));
 
   search(postsDirectory);
   return mdFiles;

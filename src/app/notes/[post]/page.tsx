@@ -14,6 +14,7 @@ import Link from "next/link";
 export default function Notes({ params }: { params: { post: string } }) {
   const [content, setContent] = useState("");
   const [post, setPost] = useState<Post | null>();
+  console.log("HELLLLLLLLO TESSSSST");
 
   useEffect(() => {
     async function getData() {

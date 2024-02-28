@@ -1,63 +1,17 @@
-"use client";
 import Container from "../_components/Container/container";
-import Header from "../_components/Header/header";
-import NotesWidget from "../_components/NotesWidget/notesWidget";
 import styles from "./Notes.module.css";
-import { useState, useEffect } from "react";
 import getAllPosts from "@/lib/api";
-import markdownToHtml from "@/lib/markdownToHtml";
-import Link from "../../../node_modules/next/link";
 import { Post } from "@/interfaces/post";
+import NotesWidget from "../_components/NotesWidget/notesWidget";
+import Script from "next/script";
 
-type notesList = {
-  Post: Post[];
-};
+export default async function Notes() {
 
-export default function Notes() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [notesList, setNotesList] = useState<notesList[] | null>();
-  const [filteredNotes, setFilteredNotes] = useState<notesList[] | null>(null);
-
-  useEffect(() => {
-    const fetchAllPosts = async () => {
-      try {
-        const data = await getAllPosts();
-        const modifiedNotes = await Promise.all(
-          data.map(async (note: any) => {
-            note.content = await markdownToHtml(note.content);
-            return note;
-          })
-        );
-        setNotesList(modifiedNotes);
-        setFilteredNotes(modifiedNotes); // Initially set filtered notes to all notes
-      } catch (error) {
-        console.log("Error: ", error);
-      }
-    };
-
-    fetchAllPosts();
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = e.target.value;
-    setSearchTerm(searchTerm);
-
-    if (notesList) {
-      if (searchTerm.trim() === "") {
-        setFilteredNotes(notesList); // If search term is empty, display all notes
-      } else {
-        const filtered = notesList?.filter((note: any) =>
-          note.title.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredNotes(filtered);
-      }
-    }
-  };
-
+  const posts = await getAllPosts();
   return (
     <div>
-      <Header />
       <main>
+        <Script src="/_previewPost.js" strategy="beforeInteractive" />
         <Container>
           <h2>Working Notes</h2>
           <br />
@@ -73,21 +27,17 @@ export default function Notes() {
               type="text"
               placeholder="Search Notes"
               className={styles.search_input}
-              onChange={handleChange}
             />
           </div>
-          {filteredNotes &&
-            filteredNotes.map((note: any, index: any) => (
-              <NotesWidget
-                key={index}
-                title={note.title}
-                shortcontent={note.content}
-                slug={note.slug}
-              />
-            ))}
+
+          {posts &&
+            posts.map((note: Post, index: number) => {
+              return (
+                <NotesWidget key={index} slug={note.slug} idx_div={index} />
+              );
+            })}
         </Container>
       </main>
     </div>
   );
 }
-
