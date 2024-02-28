@@ -5,7 +5,6 @@ import markdownToHtml from "@/lib/markdownToHtml";
 import markdownStyles from "./markdown-styles.module.css";
 import Container from "@/app/_components/Container/container";
 import PostHeader from "@/app/_components/PostHeader/postHeader";
-import Link from "next/link";
 import Header from "@/app/_components/Header/header";
 import { Post } from "@/interfaces/post";
 import { useState, useEffect } from "react";
