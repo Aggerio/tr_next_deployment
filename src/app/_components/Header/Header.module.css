@@ -1,0 +1,9 @@
+.horizontalMenu {
+  display: flex;
+  list-style-type: none;
+  margin-bottom: 32px;
+}
+
+.horizontalMenu li{
+    margin-left: 16px;
+}
