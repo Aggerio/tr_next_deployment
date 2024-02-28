@@ -12,7 +12,7 @@ type notesList = {
   Post: Post[];
 };
 export default async function Notes() {
-  const posts = await getAllPosts();
+  // const data = await getAllPosts();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [notesList, setNotesList] = useState<notesList[] | null>();
@@ -22,21 +22,23 @@ export default async function Notes() {
     const fetchAllPosts = async () => {
       try {
         const data = await getAllPosts();
-        const modifiedNotes = await Promise.all(
-          data.map(async (note: any) => {
-            note.content = await markdownToHtml(note.content);
-            return note;
-          })
-        );
-        setNotesList(modifiedNotes);
-        setFilteredNotes(modifiedNotes); // Initially set filtered notes to all notes
+        if (data) {
+          const modifiedNotes = await Promise.all(
+            data.map(async (note: any) => {
+              note.content = await markdownToHtml(note.content);
+              return note;
+            })
+          );
+          setNotesList(modifiedNotes);
+          setFilteredNotes(modifiedNotes); // Initially set filtered notes to all notes
+        }
       } catch (error) {
         console.log("Error: ", error);
       }
     };
 
     fetchAllPosts();
-  }, [searchTerm]);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
